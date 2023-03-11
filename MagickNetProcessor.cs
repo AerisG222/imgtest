@@ -1,5 +1,6 @@
 using System;
 using ImageMagick;
+using ImageMagick.Formats;
 
 namespace imgtest;
 
@@ -29,9 +30,10 @@ public class MagickNetProcessor
     public void ResizeImage(string src, string dst, int dstWidth, int dstHeight)
     {
         using var image = new MagickImage(src);
-
+        image.Format = MagickFormat.Jpg;
+        image.Quality = 75;
+        image.Strip();
         image.Resize(dstWidth, dstHeight);
-
         image.Write(dst);
     }
 }
