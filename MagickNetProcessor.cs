@@ -30,10 +30,23 @@ public class MagickNetProcessor
     public void ResizeImage(string src, string dst, int dstWidth, int dstHeight)
     {
         using var image = new MagickImage(src);
+
+        //image.ColorSpace = ColorSpace.Lab;
+        //image.WhiteBalance();
+        //image.ColorSpace = ColorSpace.sRGB;
+
+        image.AutoOrient();
+        //image.AutoGamma();
+
+        image.Interlace = Interlace.Jpeg;
+        image.Resize(dstWidth, dstHeight);
+        image.UnsharpMask(0, 0.6);
+        image.Strip();
+
+        //image.ColorSpace = ColorSpace.sRGB;
+
         image.Format = MagickFormat.Jpg;
         image.Quality = 75;
-        image.Strip();
-        image.Resize(dstWidth, dstHeight);
         image.Write(dst);
     }
 }
